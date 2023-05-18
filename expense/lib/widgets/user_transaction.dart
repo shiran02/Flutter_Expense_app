@@ -14,7 +14,7 @@ class UerTransactions extends StatefulWidget {
 }
 
 class _UerTransactionsState extends State<UerTransactions> {
-  List<Transaction> _userTransaction = [
+  final List<Transaction> _userTransaction = [
     Transaction(
       id: 't1',
       title: 'New bottom',

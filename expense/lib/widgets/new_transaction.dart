@@ -10,13 +10,12 @@ class NewTransaction extends StatelessWidget {
 
    NewTransaction(this.tsAdd);
 
-      final titleController = TextEditingController();
+    final titleController = TextEditingController();
     final amoutnController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
 
-    UerTransactions tr;
     return Card(
       elevation: 5,
       child: Container(
@@ -24,6 +23,7 @@ class NewTransaction extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
+
             TextField(
               decoration: const InputDecoration(
                 labelText: "Title",
@@ -33,17 +33,19 @@ class NewTransaction extends StatelessWidget {
               //   titleInput = val;
               // },
             ),
+
             TextField(
               decoration: const InputDecoration(
                 labelText: "Amount",
               ),
-
+              keyboardType: TextInputType.number,
               controller: amoutnController,
 
               // onChanged: (val) {
               //   amountInput = val;
               // },
             ),
+            
             TextButton(
               onPressed: () {
                 // print(titleController.text);
