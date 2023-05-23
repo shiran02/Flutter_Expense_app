@@ -32,32 +32,34 @@ class TransactionList extends StatelessWidget {
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: Colors.purple,
+                        color: Theme.of(context).primaryColor,
                         width: 2,
                       ),
                     ),
                     child: Text(
-                      '\$' +
-                          transactions[index].amount.toString(), // another way -->  '\$${tx.amount}'
-                      style: const TextStyle(
+                      '\$${transactions[index].amount.toStringAsFixed(2)}', // another way -->  '\$${tx.amount}'
+                      style:  TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
-                        color: Colors.purple,
+                         color: Theme.of(context).primaryColor,
                       ),
                     ),
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                    children: <Widget>[
                       Text(
                         transactions[index].title,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: Theme.of(context).textTheme.titleLarge,
+                        // style: const TextStyle(
+                        //   fontSize: 18,
+                        //   fontWeight: FontWeight.bold,
+                        // ),
                       ),
                       Text(
                         transactions[index].date.toString(),
+                      //   style: Theme.of(context).textTheme.titleLarge,
+                 
                         style: const TextStyle(
                           color: Colors.grey,
                           fontWeight: FontWeight.w700,

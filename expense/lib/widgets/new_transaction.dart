@@ -1,17 +1,40 @@
-import 'package:expense/widgets/user_transaction.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/widgets.dart';
 
-class NewTransaction extends StatelessWidget {
+class NewTransaction extends StatefulWidget {
 
    final Function tsAdd;
 
    NewTransaction(this.tsAdd);
 
+  @override
+  State<NewTransaction> createState() => _NewTransactionState();
+}
+
+class _NewTransactionState extends State<NewTransaction> {
+
     final titleController = TextEditingController();
     final amoutnController = TextEditingController();
+
+    void submitData(){
+
+      final enteredTitle = titleController.text;
+      final enteredAmount = double.parse(amoutnController.text);
+
+      if(enteredTitle.isEmpty || enteredAmount <= 0){
+        return;
+      }
+
+      widget.tsAdd(
+        enteredTitle , 
+        enteredAmount,
+      );
+
+      Navigator.of(context).pop();
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +52,7 @@ class NewTransaction extends StatelessWidget {
                 labelText: "Title",
               ),
               controller: titleController,
+              onSubmitted:(_) => submitData(),
               // onChanged: (val) {
               //   titleInput = val;
               // },
@@ -40,25 +64,21 @@ class NewTransaction extends StatelessWidget {
               ),
               keyboardType: TextInputType.number,
               controller: amoutnController,
-
+              onSubmitted:(_) => submitData(),
               // onChanged: (val) {
               //   amountInput = val;
               // },
             ),
             
             TextButton(
-              onPressed: () {
-                // print(titleController.text);
-                // print(amoutnController.text);
-                //print(amountInput);
-
-                tsAdd(titleController.text , double.parse(amoutnController.text));
-              },
+              onPressed:submitData,
               child: const Text(
                 'Add Transaction',
               ),
               //textColor:Colors.purple,
             ),
+
+
           ],
         ),
       ),
