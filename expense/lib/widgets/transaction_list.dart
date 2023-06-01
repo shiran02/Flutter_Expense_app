@@ -3,75 +3,72 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutter/widgets.dart';
-
+import 'package:intl/intl.dart';
 import '../model/transaction.dart';
 import '../model/transaction.dart';
 
 class TransactionList extends StatelessWidget {
-
   final List<Transaction> transactions;
+  final Function deleteTx;
 
-  TransactionList(this.transactions);
+  const TransactionList(this.transactions , this.deleteTx);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 480,
-      child: ListView.builder(
-        itemCount: transactions.length,
+      child: transactions.isEmpty
+      ? Column(
+        children: <Widget>[
+          Text(
+            'No Transactions add yet',
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          
+          SizedBox(height: 10,),
+
+          Container(
+            height: 200,
+            child: Image.asset('assets/images/waiting.png',fit: BoxFit.cover,),
+          ),
+        ],
+      ):ListView.builder(
+        
         itemBuilder: (ctx,index){
-            return Card(
-              elevation: 6,
-              child: Row(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.symmetric(
-                      vertical: 10,
-                      horizontal: 20,
+          return Card(
+            elevation: 8,
+            margin: EdgeInsets.symmetric(vertical: 4,horizontal: 2),
+            child: ListTile(
+              leading: CircleAvatar(
+                radius: 30,
+                child: Padding(
+                  padding: const EdgeInsets.all(6.0),
+                  child: FittedBox(
+                    child: Text('\$${transactions[index].amount}')
                     ),
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Theme.of(context).primaryColor,
-                        width: 2,
-                      ),
-                    ),
-                    child: Text(
-                      '\$${transactions[index].amount.toStringAsFixed(2)}', // another way -->  '\$${tx.amount}'
-                      style:  TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                         color: Theme.of(context).primaryColor,
-                      ),
-                    ),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        transactions[index].title,
-                        style: Theme.of(context).textTheme.titleLarge,
-                        // style: const TextStyle(
-                        //   fontSize: 18,
-                        //   fontWeight: FontWeight.bold,
-                        // ),
-                      ),
-                      Text(
-                        transactions[index].date.toString(),
-                      //   style: Theme.of(context).textTheme.titleLarge,
-                 
-                        style: const TextStyle(
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                ),
               ),
-            );
-          }),
-        );
-    
+          
+              title: Text(
+                transactions[index].title,
+                style: Theme.of(context).textTheme.bodyLarge
+                ),
+          
+              subtitle: Text(
+                DateFormat.yMMMd().format(transactions[index].date),
+             //   style: Theme.of(context).textTheme.bodyMedium
+              ),
+
+              trailing: IconButton(
+                icon:const Icon(Icons.delete),
+                onPressed: ()=> deleteTx(transactions[index].id),
+                color: Colors.red,
+                ),
+            ),
+          );
+        },
+        itemCount: transactions.length,
+        ),
+      );
   }
 }
